@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: goreplay-deployment
+  labels:
+        app: goreplay-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: goreplay-app
+  template:
+    metadata:
+      labels:
+        app: goreplay-app
+    spec:
+      containers:
+      - name: goreplay
+        image: feiznouri/goreplay:2.0
+        args:
+          - "--input-raw"
+          - ":3000"
+          - "--output-http=http://service-server.default:3200"
+      - name: myserver
+        image: feiznouri/python-server:1.1
+        args:
+          - "3000"
+        ports:
+        - name: server-port
+          containerPort: 3000

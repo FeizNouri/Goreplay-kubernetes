@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-deployment
+  labels:
+        app: server-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: server-app
+  template:
+    metadata:
+      labels:
+        app: server-app
+    spec:
+      containers:
+      - name: myserver
+        image: feiznouri/python-server:1.1
+        args:
+          - "3001"
+        ports:
+        - name: server-port
+          containerPort: 3001
